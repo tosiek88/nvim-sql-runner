@@ -1,16 +1,14 @@
 local M = {}
 M.run = function(config, file_name)
-
 	vim.cmd("vsplit")
 	local win_h = vim.api.nvim_get_current_win()
 	local bufnr = vim.api.nvim_create_buf(false, true)
 	vim.api.nvim_win_set_buf(win_h, bufnr)
 
-  local keymap=require("sqlrunner.keymap")
+	local keymap = require("sql-runner.keymap")
 
-  keymap.Map(config.values.out_mappings, bufnr)
-
-	local selected = config.values.profiles.main
+	keymap.Map(config.values.out_mappings, bufnr)
+  local selected = require("sql-runner.config").get_profile()
 
 	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, { "output of: " .. file_name })
 	vim.fn.jobstart({
